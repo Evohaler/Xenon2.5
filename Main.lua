@@ -2,8 +2,6 @@
 function love.load()
 
 love.window.setTitle('Xenon Republic')
-gameHeight = 600
-gameWidth =500
 love.window.setMode(500,600)
 love.graphics.setDefaultFilter('nearest', 'nearest')
 --space
@@ -29,14 +27,13 @@ anim = 0
 --Baddie1
 baddie1 = {}
 baddie1.speed = 0
-baddie1.x = 300
+baddie1.x = 200
 baddie1.y = 100
 baddie1.width = 30
 baddie1.height =30
 baddie1.img = love.graphics.newImage('Sprites/Baddie1.png')
-BADDIE_SCROLL = 0
-BADDIE_SCROLL_SPEED = 100
-BADDIE_SCROLL_LOOP = 620
+baddie1.scrollSpeed = 100
+baddie1.scrollLoop = 620
 anim = 0
 --UI
 User_interface = love.graphics.newImage('Sprites/XenonUI.png')
@@ -61,7 +58,7 @@ end
 function love.update(dt)
   -- collision
   if (player.x+player.width >= baddie1.x) and (player.x <= baddie1.x+baddie1.width) then
-        if (player.y+player.height >= BADDIE_SCROLL) and (player.y <= BADDIE_SCROLL+baddie1.height) then
+        if (player.y+player.height >= baddie1.y) and (player.y <= baddie1.y+baddie1.height) then
           player.collision = true
     end
   else player.collision = false
@@ -72,8 +69,8 @@ end
     groundScroll = (groundScroll + GROUND_SCROLL_SPEED *dt)
       % BACKGROUND_LOOP
   --Baddie Scroll
-    BADDIE_SCROLL = (BADDIE_SCROLL + BADDIE_SCROLL_SPEED * dt)
-      % BADDIE_SCROLL_LOOP
+    baddie1.y = (baddie1.y + baddie1.scrollSpeed * dt)
+      % baddie1.scrollLoop
   --World Colission
   if player.y > 590 then
      player.y = 580
@@ -134,7 +131,7 @@ function love.draw()
     else
       love.graphics.draw(player.img, player.x, player.y, 0, 1.5,1.5, 0, 0)
     end
-    love.graphics.draw(baddie1.img, baddie1.x,BADDIE_SCROLL, 0,1.5,1.5,0,0)
+    love.graphics.draw(baddie1.img, baddie1.x,baddie1.y, 0,1.5,1.5,0,0)
     love.graphics.draw(ground,0,groundScroll,0,1,1,0,600)
     if bolt.flying == true then
       love.graphics.draw(bolt.img, bolt.x+20,bolt.y,0,1,1,0,0)
