@@ -41,11 +41,12 @@ User_interface = love.graphics.newImage('Sprites/XenonUI.png')
 bolt = {}
 bolt.x = player.x
 bolt.y = -player.y
-bolt_width = 10
-bolt_height =10
-bolt_scroll = 0
+bolt.width = 10
+bolt.height =10
+bolt.scroll = 0
 bolt.img = love.graphics.newImage('Sprites/Bolt.png')
-bolt_speed = 1000
+bolt.speed = 1000
+bolt.flying = false
 end
 
 function love.keypressed(key)
@@ -90,24 +91,31 @@ function love.update(dt)
       if love.keyboard.isDown('right') then
         player.img = love.graphics.newImage('Sprites/XenonShipR.png')
       else player.img = love.graphics.newImage('Sprites/XenonShip.png')
-
+      end
       if love.keyboard.isDown('left') then
         player.img = love.graphics.newImage('Sprites/XenonShipL.png')
       else player.img = love.graphics.newImage('Sprites/XenonShip.png')
+      end
 --slows background
       if love.keyboard.isDown('down') then
            GROUND_SCROLL_SPEED = 10
            BACKGROUND_SCROLL_SPEED =10
       else GROUND_SCROLL_SPEED = 60
            BACKGROUND_SCROLL_SPEED =30
--- player shoot
-      if love.keyboard.isDown('space') then
-           bolt.y = bolt.y + bolt_speed * dt
-         end
       end
-    end
+-- player shoot
+      if bolt.y <= 0 then
+         bolt.y = player.y
+         bolt.flying = false
+       end
+      if bolt.flying == true then
+         bolt.y = bolt.y - bolt.speed * dt
+       end
+      if love.keyboard.isDown('space') then
+        bolt.flying = true
+        bolt.x = player.x
+      end
   end
-end
 
 function love.draw()
 
@@ -115,7 +123,9 @@ function love.draw()
     love.graphics.draw(player.img, player.x, player.y, 0, 1.5, 1.5, 0)
     love.graphics.draw(baddie1.img, baddie1.x,BADDIE_SCROLL, 0,1.5,1.5,20,30)
     love.graphics.draw(ground,0,groundScroll,0,1,1,0,600)
-    love.graphics.draw(bolt.img, bolt.x+20,-bolt.y,0,1,1,0,0)
+    if bolt.flying == true then
+      love.graphics.draw(bolt.img, bolt.x+20,bolt.y,0,1,1,0,0)
+    end
     love.graphics.draw(User_interface,0,0,0,1,1,0,0)
 
 
