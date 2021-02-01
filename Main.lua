@@ -72,7 +72,6 @@ end
     groundScroll = (groundScroll + GROUND_SCROLL_SPEED *dt)
       % BACKGROUND_LOOP
   --Baddie Scroll
-
     BADDIE_SCROLL = (BADDIE_SCROLL + BADDIE_SCROLL_SPEED * dt)
       % BADDIE_SCROLL_LOOP
   --World Colission
@@ -131,11 +130,11 @@ function love.draw()
 
     love.graphics.draw(background,0,backgroundScroll,0,1,1,0,600)
     if player.collision == true then
-      love.graphics.draw(player.explosion, player.x, player.y, 0,1.5,1.5,1, 0)
+      love.graphics.draw(player.explosion, player.x, player.y, 0,1.5,1.5,0, 0)
     else
-      love.graphics.draw(player.img, player.x, player.y, 0, 1.5,1.5, 1, 0)
+      love.graphics.draw(player.img, player.x, player.y, 0, 1.5,1.5, 0, 0)
     end
-    love.graphics.draw(baddie1.img, baddie1.x,BADDIE_SCROLL, 0,1.5,1.5,20,30)
+    love.graphics.draw(baddie1.img, baddie1.x,BADDIE_SCROLL, 0,1.5,1.5,0,0)
     love.graphics.draw(ground,0,groundScroll,0,1,1,0,600)
     if bolt.flying == true then
       love.graphics.draw(bolt.img, bolt.x+20,bolt.y,0,1,1,0,0)
