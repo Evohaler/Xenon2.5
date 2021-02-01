@@ -32,6 +32,7 @@ baddie1.y = 100
 baddie1.width = 30
 baddie1.height =30
 baddie1.img = love.graphics.newImage('Sprites/Baddie1.png')
+baddie1.explosion = love.graphics.newImage('Sprites/Explosion.png')
 baddie1.scrollSpeed = 100
 baddie1.scrollLoop = 620
 anim = 0
@@ -47,6 +48,7 @@ bolt.scroll = 0
 bolt.img = love.graphics.newImage('Sprites/Bolt.png')
 bolt.speed = 1000
 bolt.flying = false
+bolt.collision =false
 end
 
 function love.keypressed(key)
@@ -62,6 +64,13 @@ function love.update(dt)
           player.collision = true
     end
   else player.collision = false
+end
+--Bolt collision
+if (bolt.x+bolt.width >= baddie1.x) and (bolt.x <= baddie1.x+baddie1.width) then
+      if (bolt.y+bolt.height >= baddie1.y) and (bolt.y <= baddie1.y+baddie1.height) then
+        bolt.collision = true
+      end
+  else bolt.collision = false
 end
   -- Parallex
     backgroundScroll = (backgroundScroll + BACKGROUND_SCROLL_SPEED * dt)
@@ -81,8 +90,6 @@ end
   if player.x < 10 then
      player.x = 20
   end
-
-
       if love.keyboard.isDown('right') then
         player.x = player.x + (player.speed * dt)
       elseif love.keyboard.isDown('left') then
@@ -130,6 +137,10 @@ function love.draw()
       love.graphics.draw(player.explosion, player.x, player.y, 0,1.5,1.5,0, 0)
     else
       love.graphics.draw(player.img, player.x, player.y, 0, 1.5,1.5, 0, 0)
+    end
+    if bolt.collision == true then
+      love.graphics.draw(baddie1.explosion, baddie1.x, baddie1.y, 0,1.5,1.5,0, 0)
+    else
     end
     love.graphics.draw(baddie1.img, baddie1.x,baddie1.y, 0,1.5,1.5,0,0)
     love.graphics.draw(ground,0,groundScroll,0,1,1,0,600)
