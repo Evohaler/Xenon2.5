@@ -1,5 +1,6 @@
 
 function love.load()
+
 love.window.setTitle('Xenon Republic')
 gameHeight = 600
 gameWidth =500
@@ -19,17 +20,19 @@ player = {}
 player.speed = 200
 player.x = 200
 player.y = 520
-player_width = 30
-player_height =30
+player.width = 30
+player.height =30
 player.img = love.graphics.newImage('Sprites/XenonShip.png')
+player.explosion = love.graphics.newImage('Sprites/Explosion.png')
+player.collision =false
 anim = 0
 --Baddie1
 baddie1 = {}
 baddie1.speed = 0
 baddie1.x = 300
 baddie1.y = 100
-baddie_width = 30
-baddie_height =30
+baddie1.width = 30
+baddie1.height =30
 baddie1.img = love.graphics.newImage('Sprites/Baddie1.png')
 BADDIE_SCROLL = 0
 BADDIE_SCROLL_SPEED = 100
@@ -56,7 +59,13 @@ end
 end
 
 function love.update(dt)
-
+  -- collision
+  if (player.x+player.width >= baddie1.x) and (player.x <= baddie1.x+baddie1.width) then
+        if (player.y+player.height >= BADDIE_SCROLL) and (player.y <= BADDIE_SCROLL+baddie1.height) then
+          player.collision = true
+    end
+  else player.collision = false
+end
   -- Parallex
     backgroundScroll = (backgroundScroll + BACKGROUND_SCROLL_SPEED * dt)
       % BACKGROUND_LOOP
@@ -91,11 +100,12 @@ function love.update(dt)
       if love.keyboard.isDown('right') then
         player.img = love.graphics.newImage('Sprites/XenonShipR.png')
       else player.img = love.graphics.newImage('Sprites/XenonShip.png')
-      end
+
       if love.keyboard.isDown('left') then
         player.img = love.graphics.newImage('Sprites/XenonShipL.png')
       else player.img = love.graphics.newImage('Sprites/XenonShip.png')
       end
+    end
 --slows background
       if love.keyboard.isDown('down') then
            GROUND_SCROLL_SPEED = 10
@@ -120,7 +130,11 @@ function love.update(dt)
 function love.draw()
 
     love.graphics.draw(background,0,backgroundScroll,0,1,1,0,600)
-    love.graphics.draw(player.img, player.x, player.y, 0, 1.5, 1.5, 0)
+    if player.collision == true then
+      love.graphics.draw(player.explosion, player.x, player.y, 0,1.5,1.5,1, 0)
+    else
+      love.graphics.draw(player.img, player.x, player.y, 0, 1.5,1.5, 1, 0)
+    end
     love.graphics.draw(baddie1.img, baddie1.x,BADDIE_SCROLL, 0,1.5,1.5,20,30)
     love.graphics.draw(ground,0,groundScroll,0,1,1,0,600)
     if bolt.flying == true then
