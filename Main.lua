@@ -60,8 +60,6 @@ end
 end
 
 function love.update(dt)
-
-
   --Animation
   animation.currentTime = animation.currentTime + dt
   if animation.currentTime >= animation.duration then
@@ -141,27 +139,27 @@ end
 
 function love.draw()
 
-    love.graphics.draw(background,0,backgroundScroll,0,1,1,0,600)
+        love.graphics.draw(background,0,backgroundScroll,0,1,1,0,600)
     if player.collision == true then
-      love.graphics.draw(player.explosion, player.x, player.y, 0,1.5,1.5,0, 0)
+        love.graphics.draw(player.explosion, player.x, player.y, 0,1.5,1.5,0, 0)
     else
-      love.graphics.draw(player.img, player.x, player.y, 0, 1.5,1.5, 0, 0)
+        love.graphics.draw(player.img, player.x, player.y, 0, 1.5,1.5, 0, 0)
     end
     if bolt.collision == true then
-      love.graphics.draw(baddie1.explosion, baddie1.x, baddie1.y, 0,1.5,1.5,0, 0)
+        love.graphics.draw(baddie1.explosion, baddie1.x, baddie1.y, 0,1.5,1.5,0, 0)
     else
+        love.graphics.draw(baddie1.img, baddie1.x,baddie1.y, 0,1.5,1.5,0,0)
     end
-    love.graphics.draw(baddie1.img, baddie1.x,baddie1.y, 0,1.5,1.5,0,0)
-    love.graphics.draw(ground,0,groundScroll,0,1,1,0,600)
+        love.graphics.draw(ground,0,groundScroll,0,1,1,0,600)
     if bolt.flying == true then
-      love.graphics.draw(bolt.img, bolt.x+20,bolt.y,0,1,1,0,0)
+        love.graphics.draw(bolt.img, bolt.x+20,bolt.y,0,1,1,0,0)
     end
-    love.graphics.draw(User_interface,0,0,0,1,1,0,0)
+        love.graphics.draw(User_interface,0,0,0,1,1,0,0)
     local spriteNum = math.floor(animation.currentTime / animation.duration * #animation.quads) + 1
-      love.graphics.draw(animation.spriteSheet, animation.quads[spriteNum], 200, 200, 0, 1)
+        love.graphics.draw(animation.spriteSheet, animation.quads[spriteNum], 200, 200, 0, 1)
 
     local spriteNum = math.floor(animation.currentTime / animation.duration * #animThrust.quads) + 1
-      love.graphics.draw(animThrust.spriteSheet, animThrust.quads[spriteNum], player.x +8, player.y+40, 0, 1)
+        love.graphics.draw(animThrust.spriteSheet, animThrust.quads[spriteNum], player.x +8, player.y+40, 0, 1)
 end
 
 
@@ -180,7 +178,5 @@ function newAnimation(image, width, height, duration)
     animation.currentTime = 0
 
     return animation
-
-
 
 end
