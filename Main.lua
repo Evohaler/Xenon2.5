@@ -1,6 +1,7 @@
 
 function love.load()
-
+--Animation
+animation = newAnimation(love.graphics.newImage("Sprites/powerup.png"), 30, 30, 0.5)
 love.window.setTitle('Xenon Republic')
 love.window.setMode(500,600)
 love.graphics.setDefaultFilter('nearest', 'nearest')
@@ -58,6 +59,11 @@ end
 end
 
 function love.update(dt)
+  --Animation
+  animation.currentTime = animation.currentTime + dt
+  if animation.currentTime >= animation.duration then
+      animation.currentTime = animation.currentTime - animation.duration
+  end
   -- collision
   if (player.x+player.width >= baddie1.x) and (player.x <= baddie1.x+baddie1.width) then
         if (player.y+player.height >= baddie1.y) and (player.y <= baddie1.y+baddie1.height) then
@@ -72,15 +78,15 @@ if (bolt.x+bolt.width >= baddie1.x) and (bolt.x <= baddie1.x+baddie1.width) then
       end
   else bolt.collision = false
 end
-  -- Parallex
+-- Parallex
     backgroundScroll = (backgroundScroll + BACKGROUND_SCROLL_SPEED * dt)
       % BACKGROUND_LOOP
     groundScroll = (groundScroll + GROUND_SCROLL_SPEED *dt)
       % BACKGROUND_LOOP
-  --Baddie Scroll
+--Baddie Scroll
     baddie1.y = (baddie1.y + baddie1.scrollSpeed * dt)
       % baddie1.scrollLoop
-  --World Colission
+--World Colission
   if player.y > 590 then
      player.y = 580
   end
@@ -148,6 +154,24 @@ function love.draw()
       love.graphics.draw(bolt.img, bolt.x+20,bolt.y,0,1,1,0,0)
     end
     love.graphics.draw(User_interface,0,0,0,1,1,0,0)
+    local spriteNum = math.floor(animation.currentTime / animation.duration * #animation.quads) + 1
+    love.graphics.draw(animation.spriteSheet, animation.quads[spriteNum], 200, 200, 0, 1)
+end
 
+function newAnimation(image, width, height, duration)
+    local animation = {}
+    animation.spriteSheet = image;
+    animation.quads = {};
+
+    for y = 0, image:getHeight() - height, height do
+        for x = 0, image:getWidth() - width, width do
+            table.insert(animation.quads, love.graphics.newQuad(x, y, width, height, image:getDimensions()))
+        end
+    end
+
+    animation.duration = duration or 1
+    animation.currentTime = 0
+
+    return animation
 
 end
