@@ -1,5 +1,16 @@
-module(player)
-function love.load()
+
+local player = {}
+  player.speed = 200
+  player.x = 200
+  player.y = 520
+  player.width = 30
+  player.height =30
+  player.img = love.graphics.newImage('Sprites/XenonShip.png')
+  player.explosion = love.graphics.newImage('Sprites/Explosion.png')
+  player.collision = false
+
+
+function player.load()
   --player
     player = {}
     player.speed = 200
@@ -13,7 +24,7 @@ function love.load()
     anim = 0
 end
 
-function love.update(dt)
+function player.update(dt)
   -- player collision
   if (player.x+player.width >= baddie1.x) and (player.x <= baddie1.x+baddie1.width) then
     if (player.y+player.height >= baddie1.y) and (player.y <= baddie1.y+baddie1.height) then
@@ -22,7 +33,6 @@ function love.update(dt)
   else
     player.collision = false
   end
-
 
   if player.y > 590 then
      player.y = 580
@@ -65,10 +75,12 @@ function love.update(dt)
         bolt.x = player.x
   end
 end
-  function love.draw()
+  function player.draw()
   if player.collision == true then
       love.graphics.draw(player.explosion, player.x, player.y, 0,1.5,1.5,0, 0)
   else
       love.graphics.draw(player.img, player.x, player.y, 0, 1.5,1.5, 0, 0)
   end
 end
+
+return player

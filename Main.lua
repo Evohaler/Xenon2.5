@@ -1,7 +1,7 @@
 
 --require "player"
 -- this pulls in the test.lua file
-local MyModule = require("test")
+local Player = require("player")
 
 function love.load()
   love.window.setTitle('Xenon Republic')
@@ -20,15 +20,7 @@ function love.load()
   groundScroll = 0
   GROUND_SCROLL_SPEED = 60
 --player
-  player = {}
-  player.speed = 200
-  player.x = 200
-  player.y = 520
-  player.width = 30
-  player.height =30
-  player.img = love.graphics.newImage('Sprites/XenonShip.png')
-  player.explosion = love.graphics.newImage('Sprites/Explosion.png')
-  player.collision = false
+  Player.load()
   anim = 0
 --Baddie1
   baddie1 = {}
@@ -46,8 +38,8 @@ function love.load()
   User_interface = love.graphics.newImage('Sprites/XenonUI.png')
 --Bolt
   bolt = {}
-  bolt.x = player.x
-  bolt.y = -player.y
+  bolt.x = Player.x
+  bolt.y = -Player.y
   bolt.width = 10
   bolt.height =10
   bolt.scroll = 0
@@ -64,21 +56,13 @@ function love.keypressed(key)
 end
 
 function love.update(dt)
-  MyModule.test()
-  local wouter = myglobalvariable
-  local wouter2 = myglobalfunction()
   --Animation
   animation.currentTime = animation.currentTime + dt
   if animation.currentTime >= animation.duration then
       animation.currentTime = animation.currentTime - animation.duration
   end
   -- collision
-  if (player.x+player.width >= baddie1.x) and (player.x <= baddie1.x+baddie1.width) then
-        if (player.y+player.height >= baddie1.y) and (player.y <= baddie1.y+baddie1.height) then
-          player.collision = true
-        end
-        else player.collision = false
-  end
+
 --Bolt collision
   if (bolt.x+bolt.width >= baddie1.x) and (bolt.x <= baddie1.x+baddie1.width) then
       if (bolt.y+bolt.height >= baddie1.y) and (bolt.y <= baddie1.y+baddie1.height) then
@@ -95,34 +79,7 @@ function love.update(dt)
     baddie1.y = (baddie1.y + baddie1.scrollSpeed * dt)
       % baddie1.scrollLoop
 --World Colission
-  if player.y > 590 then
-     player.y = 580
-  end
-  if player.x >= 350 then
-     player.x = 340
-  end
-  if player.x < 10 then
-     player.x = 20
-  end
-      if love.keyboard.isDown('right') then
-        player.x = player.x + (player.speed * dt)
-      elseif love.keyboard.isDown('left') then
-        player.x = player.x - (player.speed * dt)
-      end
-      if love.keyboard.isDown('down') then
-        player.y = player.y + (player.speed * dt)
-      elseif love.keyboard.isDown('up') then
-        player.y = player.y - (player.speed * dt)
-      end
-      if love.keyboard.isDown('right') then
-        player.img = love.graphics.newImage('Sprites/XenonShipR.png')
-      else player.img = love.graphics.newImage('Sprites/XenonShip.png')
-
-      if love.keyboard.isDown('left') then
-        player.img = love.graphics.newImage('Sprites/XenonShipL.png')
-      else player.img = love.graphics.newImage('Sprites/XenonShip.png')
-      end
-    end
+  Player.update(dt)
 --slows background
       if love.keyboard.isDown('down') then
            GROUND_SCROLL_SPEED = 10
@@ -146,11 +103,7 @@ end
 function love.draw()
 
         love.graphics.draw(background,0,backgroundScroll,0,1,1,0,600)
-    if player.collision == true then
-        love.graphics.draw(player.explosion, player.x, player.y, 0,1.5,1.5,0, 0)
-    else
-        love.graphics.draw(player.img, player.x, player.y, 0, 1.5,1.5, 0, 0)
-    end
+        Player.draw()
     if bolt.collision == true then
         love.graphics.draw(baddie1.explosion, baddie1.x, baddie1.y, 0,1.5,1.5,0, 0)
     else
@@ -165,7 +118,7 @@ function love.draw()
         love.graphics.draw(animation.spriteSheet, animation.quads[spriteNum], 200, 200, 0, 1)
 
     local spriteNum = math.floor(animation.currentTime / animation.duration * #animThrust.quads) + 1
-        love.graphics.draw(animThrust.spriteSheet, animThrust.quads[spriteNum], player.x +8, player.y+40, 0, 1)
+        love.graphics.draw(animThrust.spriteSheet, animThrust.quads[spriteNum], Player.x +8, Player.y+40, 0, 1)
 end
 
 
