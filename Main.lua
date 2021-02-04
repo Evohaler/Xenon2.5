@@ -1,5 +1,6 @@
 
 --require "player"
+-- this pulls in the test.lua file
 local MyModule = require("test")
 
 function love.load()

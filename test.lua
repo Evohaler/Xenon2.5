@@ -1,3 +1,4 @@
+-- just a test file
 local M = {}
 
 function M.test()
