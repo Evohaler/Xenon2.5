@@ -16,12 +16,14 @@ end
 function love.update(dt)
   -- player collision
   if (player.x+player.width >= baddie1.x) and (player.x <= baddie1.x+baddie1.width) then
-  if (player.y+player.height >= baddie1.y) and (player.y <= baddie1.y+baddie1.height) then
+    if (player.y+player.height >= baddie1.y) and (player.y <= baddie1.y+baddie1.height) then
           player.collision = true
+    end
+  else
+    player.collision = false
   end
-  else player.collision = false
-  end
-  end
+
+
   if player.y > 590 then
      player.y = 580
   end
