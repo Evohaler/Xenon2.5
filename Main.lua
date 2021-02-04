@@ -1,4 +1,10 @@
+<<<<<<< Updated upstream
 require "player"
+=======
+
+local MyModule = require("test")
+
+>>>>>>> Stashed changes
 function love.load()
   love.window.setTitle('Xenon Republic')
   love.graphics.setDefaultFilter('nearest', 'nearest')
@@ -60,6 +66,7 @@ function love.keypressed(key)
 end
 
 function love.update(dt)
+  MyModule.test()
   --Animation
   animation.currentTime = animation.currentTime + dt
   if animation.currentTime >= animation.duration then
