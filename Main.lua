@@ -1,5 +1,5 @@
 
-require "player"
+--require "player"
 local MyModule = require("test")
 
 function love.load()
@@ -181,5 +181,4 @@ function newAnimation(image, width, height, duration)
     animation.currentTime = 0
 
     return animation
-
 end
