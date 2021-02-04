@@ -65,6 +65,8 @@ end
 
 function love.update(dt)
   MyModule.test()
+  local wouter = myglobalvariable
+  local wouter2 = myglobalfunction()
   --Animation
   animation.currentTime = animation.currentTime + dt
   if animation.currentTime >= animation.duration then
