@@ -1,10 +1,7 @@
-<<<<<<< Updated upstream
-require "player"
-=======
 
+require "player"
 local MyModule = require("test")
 
->>>>>>> Stashed changes
 function love.load()
   love.window.setTitle('Xenon Republic')
   love.graphics.setDefaultFilter('nearest', 'nearest')
