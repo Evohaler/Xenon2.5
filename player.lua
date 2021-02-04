@@ -10,6 +10,15 @@ local player = {}
   player.collision = false
 
 
+function player.getX()
+  return player.x
+end
+
+function player.getY()
+  return player.y
+end
+
+
 function player.load()
   --player
     player = {}

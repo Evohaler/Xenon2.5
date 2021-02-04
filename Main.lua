@@ -38,8 +38,8 @@ function love.load()
   User_interface = love.graphics.newImage('Sprites/XenonUI.png')
 --Bolt
   bolt = {}
-  bolt.x = Player.x
-  bolt.y = -Player.y
+  bolt.x = Player.getX()
+  bolt.y = -Player.getY()
   bolt.width = 10
   bolt.height =10
   bolt.scroll = 0
@@ -89,7 +89,7 @@ function love.update(dt)
       end
 -- player shoot
       if bolt.y <= 0 then
-         bolt.y = player.y
+         bolt.y = Player.getY()
          bolt.flying = false
        end
       if bolt.flying == true then
@@ -97,7 +97,7 @@ function love.update(dt)
        end
       if love.keyboard.isDown('space') then
         bolt.flying = true
-        bolt.x = player.x
+        bolt.x = Player.getX()
       end
 end
 function love.draw()
@@ -118,7 +118,7 @@ function love.draw()
         love.graphics.draw(animation.spriteSheet, animation.quads[spriteNum], 200, 200, 0, 1)
 
     local spriteNum = math.floor(animation.currentTime / animation.duration * #animThrust.quads) + 1
-        love.graphics.draw(animThrust.spriteSheet, animThrust.quads[spriteNum], Player.x +8, Player.y+40, 0, 1)
+        love.graphics.draw(animThrust.spriteSheet, animThrust.quads[spriteNum], Player.getX()+8, Player.getY()+40, 0, 1)
 end
 
 
